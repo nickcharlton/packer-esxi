@@ -1,0 +1,58 @@
+{
+  "builders": [{
+    "name": "debian-8-base",
+    "vm_name": "debian-8-base",
+    "type": "vmware-iso",
+    "guest_os_type": "debian8-64",
+    "output_directory": "debian-8-base",
+    "tools_upload_flavor": "linux",
+    "headless": true,
+
+    "iso_url": "http://cdimage.debian.org/debian-cd/8.6.0/amd64/iso-cd/debian-8.6.0-amd64-netinst.iso",
+    "iso_checksum": "9479c5c2df72ae3878116c43fb42eefae53d1fe363ce514a6afc8289064b9f5f",
+    "iso_checksum_type": "sha256",
+
+    "ssh_username": "nullgrid",
+    "ssh_password": "nullgrid",
+    "ssh_timeout": "15m",
+
+    "disk_type_id": "thin",
+
+    "boot_command": [
+      "<esc><wait>",
+      "install ",
+      "preseed/url=http://nullgrid.s3.amazonaws.com/debian.cfg ",
+      "debian-installer=en_US auto=true locale=en_US kbd-chooser/method=us ",
+      "netcfg/get_hostname={{ .Name }} ",
+      "netcfg/get_domain=nullgrid.net ",
+      "fb=false debconf/frontend=noninteractive ",
+      "console-setup/ask_detect=false console-keymaps-at/keymap=us ",
+      "keyboard-configuration/xkb-keymap=us ",
+      "<enter>"
+    ],
+
+    "shutdown_command": "echo 'shutdown -h now' > shutdown.sh; echo 'nullgrid'|sudo -S sh 'shutdown.sh'",
+
+    "remote_type": "esx5",
+    "remote_host": "{{user `esxi_host`}}",
+    "remote_datastore": "{{user `esxi_datastore`}}",
+    "remote_username": "{{user `esxi_username`}}",
+    "remote_password": "{{user `esxi_password`}}",
+    "keep_registered": true,
+
+    "vmx_data": {
+      "ethernet0.networkName": "VM Network"
+    }
+  }],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/open-vm-tools.sh"
+      ],
+
+      "execute_command": "echo 'nullgrid' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'"
+    }
+  ]
+}
