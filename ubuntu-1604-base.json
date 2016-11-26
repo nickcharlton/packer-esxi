@@ -1,0 +1,64 @@
+{
+  "builders": [{
+    "name": "ubuntu-1604-base",
+    "vm_name": "ubuntu-1604-base",
+    "type": "vmware-iso",
+    "guest_os_type": "ubuntu-64",
+    "tools_upload_flavor": "linux",
+    "headless": false,
+
+    "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04-server-amd64.iso",
+    "iso_checksum": "b8b172cbdf04f5ff8adc8c2c1b4007ccf66f00fc6a324a6da6eba67de71746f6",
+    "iso_checksum_type": "sha256",
+
+    "ssh_username": "nullgrid",
+    "ssh_password": "nullgrid",
+    "ssh_timeout": "15m",
+
+    "disk_type_id": "thin",
+
+    "floppy_files": [
+      "preseed/ubuntu.cfg"
+    ],
+
+    "boot_command": [
+      "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+      "/install/vmlinuz noapic ",
+      "preseed/file=/floppy/ubuntu.cfg ",
+      "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+      "hostname={{ .Name }} ",
+      "fb=false debconf/frontend=noninteractive ",
+      "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+      "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+      "grub-installer/bootdev=/dev/sda ",
+      "initrd=/install/initrd.gz -- <enter>"
+    ],
+
+    "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'nullgrid'|sudo -S sh 'shutdown.sh'",
+
+    "remote_type": "esx5",
+    "remote_host": "{{user `esxi_host`}}",
+    "remote_datastore": "{{user `esxi_datastore`}}",
+    "remote_username": "{{user `esxi_username`}}",
+    "remote_password": "{{user `esxi_password`}}",
+    "keep_registered": true,
+
+    "vmx_data": {
+      "ethernet0.networkName": "VM Network"
+    }
+  }],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/open-vm-tools.sh"
+      ],
+
+      "execute_command": "echo 'nullgrid' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'"
+    }
+  ]
+}
