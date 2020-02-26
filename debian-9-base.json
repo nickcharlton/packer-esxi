@@ -1,15 +1,15 @@
 {
   "builders": [{
-    "name": "debian-8-base",
-    "vm_name": "debian-8-base",
+    "name": "debian-9-base",
+    "vm_name": "debian-9-base",
     "type": "vmware-iso",
-    "guest_os_type": "debian8-64",
-    "output_directory": "debian-8-base",
+    "guest_os_type": "debian9-64",
+    "output_directory": "debian-9-base",
     "tools_upload_flavor": "linux",
     "headless": true,
 
-    "iso_url": "http://cdimage.debian.org/debian-cd/8.6.0/amd64/iso-cd/debian-8.6.0-amd64-netinst.iso",
-    "iso_checksum": "9479c5c2df72ae3878116c43fb42eefae53d1fe363ce514a6afc8289064b9f5f",
+    "iso_url": "http://debian.ethz.ch/debian-cd/9.9.0/amd64/iso-cd/debian-9.9.0-amd64-netinst.iso",
+    "iso_checksum": "d4a22c81c76a66558fb92e690ef70a5d67c685a08216701b15746586520f6e8e",
     "iso_checksum_type": "sha256",
 
     "ssh_username": "nullgrid",
