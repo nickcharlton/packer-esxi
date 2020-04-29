@@ -1,7 +1,7 @@
 # packer-esxi
 
 A set of example [Packer][] templates for building Debian and Ubuntu boxes on
-[VMware ESXi][]. These are built on the remote ESXi host, then shutdown and
+[VMware ESXi][]. These are built on the remote ESXi host, then shut down and
 left registered. A lot of this work comes out of [boxes][], which provides the
 basic template formation.
 
