@@ -7,8 +7,8 @@
     "tools_upload_flavor": "linux",
     "headless": false,
 
-    "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04-server-amd64.iso",
-    "iso_checksum": "b8b172cbdf04f5ff8adc8c2c1b4007ccf66f00fc6a324a6da6eba67de71746f6",
+    "iso_url": "http://old-releases.ubuntu.com/releases/xenial/ubuntu-16.04.2-server-amd64.iso",
+    "iso_checksum": "737ae7041212c628de5751d15c3016058b0e833fdc32e7420209b76ca3d0a535",
     "iso_checksum_type": "sha256",
 
     "ssh_username": "nullgrid",
